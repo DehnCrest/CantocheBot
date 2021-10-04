@@ -13,13 +13,22 @@ from PIL import Image
 import urllib.request
 
 def DownloadPDF():
-    url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
-    urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
+    today = datetime.datetime.today().weekday()
+    if(today in [0,1]):
+        url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
+        urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
+        return 0
+    elif(today in [5,6]):
+        return 1
+    else:
+        return 0
 
 # Transforme le fichier PDF en fichier PNG pour le traiter plus facilement
 def generatePNG():
-    pages = convert_from_path('Menu_Semaine.pdf', 500)
-    pages[0].save('Menu_Semaine.png', 'PNG')
+    today = datetime.datetime.today().weekday()
+    if(today in [0,1]):
+        pages = convert_from_path('Menu_Semaine.pdf', 500)
+        pages[0].save('Menu_Semaine.png', 'PNG')
 
 # Récupère l'image du menu du jour
 def getPartPNG():

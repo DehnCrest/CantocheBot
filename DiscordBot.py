@@ -20,11 +20,13 @@ async def on_ready():
 
 @bot.command()
 async def cantoche(ctx):
-    CantocheBotPDF.DownloadPDF()
-    CantocheBotPDF.generatePNG()
-    CantocheBotPDF.getPartPNG()
-    with open('MenuDuJour.png', 'rb') as f:
-        picture = discord.File(f)
-        await ctx.send("Voici le menu du jour: ", file = picture)
-
+    res = CantocheBotPDF.DownloadPDF()
+    if (res == 0):
+        CantocheBotPDF.generatePNG()
+        CantocheBotPDF.getPartPNG()
+        with open('MenuDuJour.png', 'rb') as f:
+            picture = discord.File(f)
+            await ctx.send("Voici le menu du jour: ", file = picture)
+    else:
+        await ctx.send("Nous sommes le week-end, vous êtes libre de manger ce que vous voulez")
 bot.run(TOKEN)
