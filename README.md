@@ -3,9 +3,11 @@
 Discord bot to announce on a channel today's menu at the school's restaurant.
 The bot has been developed for the INFRES 12 SR class.
 
-![IMT](https://pbs.twimg.com/profile_images/977212057241243648/VxAL5lfT_400x400.jpg)
+<center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/IMT_Mines_Al%C3%A8s.svg/langfr-220px-IMT_Mines_Al%C3%A8s.svg.png"></img>
+</center>
 
-### Built with : 
+
+### Developed with : 
 * [Python](https://www.python.org/)
 * [Discord.py](https://discordpy.readthedocs.io/en/stable/)
 
@@ -34,8 +36,10 @@ Under the following terms:
 ### Contact :
 
 **Full Stack Python Developer :**
-🇫🇷 Aloïs Koestlé - INFRES 12
+
+➡️ Aloïs Koestlé - INFRES 12
 
 **Full Stack Project Manager :**
-🇫🇷 Alexandre Dupouy - INFRES 12
+
+➡️ Alexandre Dupouy - INFRES 12
 
