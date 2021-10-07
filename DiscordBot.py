@@ -13,15 +13,7 @@ INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 
 # Dictionnary to manage weekday parameter
-days = {
-    'lundi':0,
-    'mardi':1,
-    'mercredi':2,
-    'jeudi':3,
-    'vendredi':4,
-    'samedi':5,
-    'dimanche':6
-}
+days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
 
 client = discord.Client()
 
