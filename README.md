@@ -1,6 +1,8 @@
 # CantocheBot
 
 Discord bot to announce on a channel today's menu at the school's restaurant.
+The bot has been developed for the INFRES 12 SR class.
+![IMT](https://www.fondation-mines-telecom.org/wp-content/uploads/2018/02/imt_mines_ales.jpg)
 
 ### Built with : 
 * [Python](https://www.python.org/)
