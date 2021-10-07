@@ -12,6 +12,7 @@ PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 
+# Dictionnary to manage weekday parameter
 days = {
     'lundi':0,
     'mardi':1,
