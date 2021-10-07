@@ -1,8 +1,8 @@
-# CantocheBot
+# 🍟 CantocheBot 🍟
 
 Discord bot to announce on a channel today's menu at the school's restaurant.
 The bot has been developed for the INFRES 12 SR class.
-![IMT](https://www.fondation-mines-telecom.org/wp-content/uploads/2018/02/imt_mines_ales.jpg)
+![IMT](https://pbs.twimg.com/profile_images/977212057241243648/VxAL5lfT_400x400.jpg)
 
 ### Built with : 
 * [Python](https://www.python.org/)
@@ -25,16 +25,16 @@ You are free to :
 
 Under the following terms:
 - Attribution : You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-- NonCommercial : You may not use the material for commercial purposes.
-- ShareAlike : If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+- Non commercial : You may not use the material for commercial purposes.
+- Share a like : If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 - No additional restrictions : You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
 
 ### Contact :
 
 **Full Stack Python Developer :**
-Aloïs Koestlé
+🇫🇷 Aloïs Koestlé - INFRES 12
 
 **Full Stack Project Manager :**
-Alexandre Dupouy
+🇫🇷 Alexandre Dupouy - INFRES 12
 
