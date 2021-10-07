@@ -1,50 +1,41 @@
 #!/usr/bin/python
 #
 
-# Lundi: (150, 1100, 8000, 2000)
-# Mardi: (150, 2000, 8000, 2750)
-# Mercredi: (150, 2750, 8000, 3550)
-# Jeudi: (150, 3550, 8000, 4350)
-# Vendredi: (150, 4350, 8000, 5150)
+# Lundi (50, 350, 2450, 600),
+# Mardi(50, 600, 2450, 825),
+# Mercredi(50, 825, 2450, 1075),
+# Jeudi (50, 1075, 2450, 1300),
+# Vendredi (50, 1300, 2450, 1550)
 
 import datetime
 from pdf2image import convert_from_path
 from PIL import Image
 import urllib.request
 
+# Télécharge le fichier situé sur le serveur des mines
 def DownloadPDF():
-    today = datetime.datetime.today().weekday()
-    if(today in [0,1]):
-        url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
-        urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
-        return 0
-    elif(today in [5,6]):
-        return 1
-    else:
-        return 0
+    url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
+    urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
 
 # Transforme le fichier PDF en fichier PNG pour le traiter plus facilement
 def generatePNG():
-    today = datetime.datetime.today().weekday()
-    if(today in [0,1]):
-        pages = convert_from_path('Menu_Semaine.pdf', 500)
-        pages[0].save('Menu_Semaine.png', 'PNG')
+    pages = convert_from_path('Menu_Semaine.pdf', dpi=150)
+    pages[0].save('Menu_Semaine.png', 'PNG')
 
 # Récupère l'image du menu du jour
-def getPartPNG():
+def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
-    today = datetime.datetime.today().weekday()
     rectdict = {
-        0:(150, 1100, 8000, 2000),
-        1:(150, 2000, 8000, 2750),
-        2:(150, 2750, 8000, 3550),
-        3:(150, 3550, 8000, 4350),
-        4:(150, 4350, 8000, 5150)
+        0:(50, 350, 2450, 600),
+        1:(50, 600, 2450, 825),
+        2:(50, 825, 2450, 1075),
+        3:(50, 1075, 2450, 1300),
+        4:(50, 1300, 2450, 1550)
     }
-    crop_rectangle = rectdict[today]
+    crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
     cropped_im.save('MenuDuJour.png', 'PNG')
 
-#DownloadPDF()
-#generatePNG()
-#getPartPNG()
+#DownloadPDF(day)
+#generatePNG(day)
+#getPartPNG(day)
