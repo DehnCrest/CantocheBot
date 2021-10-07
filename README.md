@@ -39,7 +39,7 @@ Under the following terms:
 
 ➡️ Aloïs Koestlé - INFRES 12
 
-**Full Stack Project Manager :**
+**Project Manager :**
 
 ➡️ Alexandre Dupouy - INFRES 12
 
