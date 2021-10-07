@@ -2,6 +2,7 @@
 
 Discord bot to announce on a channel today's menu at the school's restaurant.
 The bot has been developed for the INFRES 12 SR class.
+
 ![IMT](https://pbs.twimg.com/profile_images/977212057241243648/VxAL5lfT_400x400.jpg)
 
 ### Built with : 
