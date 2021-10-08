@@ -18,15 +18,14 @@ Steps to reproduce the behavior:
 4. See error
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+A clear and concise description of what you expected to happen (without this bug).
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable.
 
 **Environment:**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+ - OS:
+ - Discord Version:
 
 **Additional context**
 Add any other context about the problem here.
