@@ -18,6 +18,19 @@ In the appropriate Discord channel :
    !cantoche <day>   # Will return the chosen day's menu
    !cantoche semaine # Will return the whole week menu
    ```
+
+### Example : 
+
+Default usage :
+![image](https://user-images.githubusercontent.com/18117508/136535956-04b224ee-f95b-40c4-a758-360916e19426.png)
+
+
+With day specified :
+![image](https://user-images.githubusercontent.com/18117508/136535845-8920a363-66b1-4ab9-8de6-7526599da281.png)
+
+Whole week :
+![image](https://user-images.githubusercontent.com/18117508/136536044-bd4acc1c-8f53-4aeb-83eb-7cafe0d5ac51.png)
+
 ### License : 
 
 The project is released under the **CC-BY-NC-SA v4** license.
