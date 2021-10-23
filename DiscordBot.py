@@ -13,7 +13,9 @@ INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 
 # Dictionnary to manage weekday parameter
-days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
+days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6,
+         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6
+}
 
 client = discord.Client()
 
@@ -30,7 +32,7 @@ async def cantoche(ctx, day: str=None):
         day = day.lower()
         if(day in days.keys()):
             day = days[day]
-        elif day == 'semaine':
+        elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
             with open('Menu_Semaine.png', 'rb') as f:
