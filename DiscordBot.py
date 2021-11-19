@@ -13,8 +13,8 @@ INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 
 # Dictionnary to manage weekday parameter
-days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6,
-         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6
+days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4,
+         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4
 }
 
 client = discord.Client()
@@ -28,8 +28,18 @@ async def on_ready():
 async def cantoche(ctx, day: str=None):
     if (day is None):
         day = datetime.datetime.today().weekday()
+        CantocheBotPDF.DownloadPDF()
+        CantocheBotPDF.generatePNG()
+        CantocheBotPDF.getPartPNG(day)
+        with open('MenuDuJour.png', 'rb') as f:
+            picture = discord.File(f)
+            await ctx.send("Voici le menu du jour: ", file = picture)
+            return
     else:
         day = day.lower()
+        if(day in ['samedi', 'dimanche', 'saturday', 'sunday']):
+            await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
+            return
         if(day in days.keys()):
             daymsg = day
             day = days[day]
@@ -49,18 +59,7 @@ async def cantoche(ctx, day: str=None):
                 return
         else:
             await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
-            return   
-
-    if(day in [5,6]):
-        await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
-        return
-    else:
-        CantocheBotPDF.DownloadPDF()
-        CantocheBotPDF.generatePNG()
-        CantocheBotPDF.getPartPNG(day)
-        with open('MenuDuJour.png', 'rb') as f:
-            picture = discord.File(f)
-            await ctx.send("Voici le menu du jour: ", file = picture)
             return
+        
 
 bot.run(TOKEN)
