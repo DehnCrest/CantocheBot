@@ -35,6 +35,7 @@ Whole week :
 ![image](https://user-images.githubusercontent.com/18117508/136536044-bd4acc1c-8f53-4aeb-83eb-7cafe0d5ac51.png)
 
 ### License : 
+![image](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
 The project is released under the **CC-BY-NC-SA v4** license.
 
@@ -54,6 +55,7 @@ Under the following terms:
 **Full Stack Python Developer :**
 
 ➡️ Aloïs Koestlé - INFRES 12
+➡️ Benjamin Saby - INFRES 12
 
 **Project Manager :**
 
