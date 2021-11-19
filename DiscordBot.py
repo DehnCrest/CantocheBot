@@ -31,7 +31,14 @@ async def cantoche(ctx, day: str=None):
     else:
         day = day.lower()
         if(day in days.keys()):
+            daymsg = day
             day = days[day]
+            CantocheBotPDF.DownloadPDF()
+            CantocheBotPDF.generatePNG()
+            CantocheBotPDF.getPartPNG(day)
+            with open('MenuDuJour.png', 'rb') as f:
+                picture = discord.File(f)
+                await ctx.send("Voici le menu du " + day + ":", file = picture)
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
