@@ -11,6 +11,7 @@ with open('BotToken.txt', 'r') as f:
 PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
+language = ""
 
 # Dictionnary to manage weekday parameter
 days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4,
@@ -37,10 +38,15 @@ async def cantoche(ctx, day: str=None):
             return
     else:
         day = day.lower()
-        if(day in ['samedi', 'dimanche', 'saturday', 'sunday']):
+        if(day in ['samedi', 'dimanche']):
             await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
             return
+        elif(day in ['saturday', 'sunday']):
+            await ctx.send("On week-end days, you are free to eat eggs")
+            return
         if(day in days.keys()):
+            if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']): language = "fr"
+            elif (day in ['monday','tuesday','wednesday','thursday','friday']): language = "en"
             daymsg = day
             day = days[day]
             CantocheBotPDF.DownloadPDF()
@@ -48,15 +54,23 @@ async def cantoche(ctx, day: str=None):
             CantocheBotPDF.getPartPNG(day)
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
-                await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
-                return
+                if(language == "fr"):
+                    await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
+                    return
+                elif(language == "en"):
+                    await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
+                    return
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
             with open('Menu_Semaine.png', 'rb') as f:
                 picture = discord.File(f)
-                await ctx.send("Voici le menu de la semaine: ", file = picture)
-                return
+                if (day == "semaine"):
+                    await ctx.send("Voici le menu de la semaine: ", file = picture)
+                    return
+                elif (day == "week"):
+                    await ctx.send("Here's the menu of the week: ", file = picture)
+                    return
         else:
             await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
             return
