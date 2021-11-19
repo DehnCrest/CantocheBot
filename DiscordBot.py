@@ -39,17 +39,21 @@ async def cantoche(ctx, day: str=None):
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
+                return
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
             with open('Menu_Semaine.png', 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send("Voici le menu de la semaine: ", file = picture)
+                return
         else:
-            await ctx.send("Votre jour n'a pas été compris, merci de réessayer")    
+            await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
+            return   
 
     if(day in [5,6]):
         await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
+        return
     else:
         CantocheBotPDF.DownloadPDF()
         CantocheBotPDF.generatePNG()
@@ -57,5 +61,6 @@ async def cantoche(ctx, day: str=None):
         with open('MenuDuJour.png', 'rb') as f:
             picture = discord.File(f)
             await ctx.send("Voici le menu du jour: ", file = picture)
+            return
 
 bot.run(TOKEN)
