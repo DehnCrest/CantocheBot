@@ -15,7 +15,8 @@ language = ""
 
 # Dictionnary to manage weekday parameter
 days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4,
-         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4
+         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4,
+         'test':5
 }
 
 client = discord.Client()
@@ -48,17 +49,30 @@ async def cantoche(ctx, day: str=None):
             if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']): language = "fr"
             elif (day in ['monday','tuesday','wednesday','thursday','friday']): language = "en"
             daymsg = day
+            egg = 0
             day = days[day]
             CantocheBotPDF.DownloadPDF()
+            pages = CantocheBotPDF.getEggs()
+            pages.lower()
             CantocheBotPDF.generatePNG()
             CantocheBotPDF.getPartPNG(day)
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
+                if(pages.find('oeuf') != -1 or pages.find('œuf') != -1):
+                    await ctx.send("Cette semaine, il y aura des oeufs ! J'adore les oeufs !!!!!!\n This week you'll have eggs ! I Love eggs !!!!")
+                    return
                 if(language == "fr"):
-                    await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
+                    if(egg == 1):
+                        await ctx.send("Cette semaine il y aura des oeufs !\n J'adore les oeufs !!\n Voici le menu du " + daymsg + ":", file = picture)
+                    else:
+                        await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
                     return
                 elif(language == "en"):
                     await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
+                    if(egg == 1):
+                        await ctx.send("This week you'll have eggs !\n I love eggs !!!! !!\n Here's the menu of " + daymsg + ":", file = picture)
+                    else:
+                        await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
                     return
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
