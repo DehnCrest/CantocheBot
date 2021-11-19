@@ -8,7 +8,7 @@ with open('BotToken.txt', 'r') as f:
     TOKEN = f.readline()
     f.close()
 
-PREFIX = '/'
+PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 language = ""
