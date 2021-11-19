@@ -55,6 +55,7 @@ Under the following terms:
 **Full Stack Python Developer :**
 
 ➡️ Aloïs Koestlé - INFRES 12
+
 ➡️ Benjamin Saby - INFRES 12
 
 **Project Manager :**
