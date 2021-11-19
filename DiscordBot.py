@@ -41,12 +41,12 @@ async def cantoche(ctx, day: str=None):
         if(day in ['samedi', 'dimanche']):
             await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
             return
-        elif(day in ['saturday', 'sunday'])
+        elif(day in ['saturday', 'sunday']):
             await ctx.send("On week-end days, you are free to eat eggs")
             return
         if(day in days.keys()):
-            if day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']: language = "fr"
-            elif day in ['monday','tuesday','wednesday','thursday','friday']: language = "en"
+            if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']): language = "fr"
+            elif (day in ['monday','tuesday','wednesday','thursday','friday']): language = "en"
             daymsg = day
             day = days[day]
             CantocheBotPDF.DownloadPDF()
