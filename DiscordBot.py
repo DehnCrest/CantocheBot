@@ -38,7 +38,7 @@ async def cantoche(ctx, day: str=None):
             CantocheBotPDF.getPartPNG(day)
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
-                await ctx.send("Voici le menu du " + day + ":", file = picture)
+                await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
