@@ -58,7 +58,7 @@ async def cantoche(ctx, day: str=None):
                     await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
                     return
                 elif(language == "en"):
-                    await ctx.send("Here is the menu of " + daymsg + ":", file = picture)
+                    await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
                     return
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
@@ -69,7 +69,7 @@ async def cantoche(ctx, day: str=None):
                     await ctx.send("Voici le menu de la semaine: ", file = picture)
                     return
                 elif (day == "week"):
-                    await ctx.send("Here is the menu of the week: ", file = picture)
+                    await ctx.send("Here's the menu of the week: ", file = picture)
                     return
         else:
             await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
