@@ -59,8 +59,7 @@ async def cantoche(ctx, day: str=None):
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
                 if(pages.find('oeuf') != -1 or pages.find('œuf') != -1):
-                    await ctx.send("Cette semaine, il y aura des oeufs ! J'adore les oeufs !!!!!!\n This week you'll have eggs ! I Love eggs !!!!")
-                    return
+                    egg = 1
                 if(language == "fr"):
                     if(egg == 1):
                         await ctx.send("Cette semaine il y aura des oeufs !\n J'adore les oeufs !!\n Voici le menu du " + daymsg + ":", file = picture)
@@ -68,7 +67,6 @@ async def cantoche(ctx, day: str=None):
                         await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
                     return
                 elif(language == "en"):
-                    await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
                     if(egg == 1):
                         await ctx.send("This week you'll have eggs !\n I love eggs !!!! !!\n Here's the menu of " + daymsg + ":", file = picture)
                     else:
@@ -77,13 +75,23 @@ async def cantoche(ctx, day: str=None):
         elif day == 'semaine' or day == 'week':
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
+            pages = CantocheBotPDF.getEggs()
+            pages.lower()
+            if(pages.find('oeuf') != -1 or pages.find('œuf') != -1):
+                egg = 1
             with open('Menu_Semaine.png', 'rb') as f:
                 picture = discord.File(f)
                 if (day == "semaine"):
-                    await ctx.send("Voici le menu de la semaine: ", file = picture)
+                    if(egg == 1):
+                        await ctx.send("Il y a des oeufs cette semaine !\n Voici le menu de la semaine: ", file = picture)
+                    else:
+                        await ctx.send("Voici le menu de la semaine: ", file = picture)
                     return
                 elif (day == "week"):
-                    await ctx.send("Here's the menu of the week: ", file = picture)
+                    if(egg == 1):
+                        await ctx.send("There's eggs this week !\n Here's the menu of the week: ", file = picture)
+                    else:
+                        await ctx.send("Here's the menu of the week: ", file = picture)
                     return
         else:
             await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
