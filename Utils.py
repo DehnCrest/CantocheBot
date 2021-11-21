@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#
 
 # Lundi (50, 350, 2450, 600),
 # Mardi(50, 600, 2450, 825),
@@ -14,14 +13,18 @@ import urllib.request
 import pdfplumber
 
 # Télécharge le fichier situé sur le serveur des mines
-def DownloadPDF():
+def downloadPDF():
     url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
     urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
 
-def getEggs():
+def checkEggs():
     with pdfplumber.open('Menu_Semaine.pdf') as pdf:
         pages = pdf.pages
-        return pages[0].extract_text()
+        page = pages[0].extract_text().lower()
+        if(page.find('oeuf') != -1 or page.find('œuf') != -1):
+            return True
+        else:
+            return False
 
 
 # Transforme le fichier PDF en fichier PNG pour le traiter plus facilement
@@ -42,7 +45,3 @@ def getPartPNG(day):
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
     cropped_im.save('MenuDuJour.png', 'PNG')
-
-#DownloadPDF(day)
-#generatePNG(day)
-#getPartPNG(day)
