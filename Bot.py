@@ -79,7 +79,6 @@ async def _cantoche(ctx:SlashContext, day:str=None):
     day = int(day)
     eggs = Utils.checkEggs()
     if(day in [0,1,2,3,4]):
-        Utils.downloadPDF()
         Utils.generatePNG()
         Utils.getPartPNG(day)
         with open('MenuDuJour.png', 'rb') as f:
@@ -93,7 +92,6 @@ async def _cantoche(ctx:SlashContext, day:str=None):
         await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
         return
     elif(day == 7):
-        Utils.downloadPDF()
         Utils.generatePNG()
         with open('Menu_Semaine.png', 'rb') as f:
             picture = discord.File(f)

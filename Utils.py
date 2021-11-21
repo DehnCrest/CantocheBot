@@ -18,6 +18,7 @@ def downloadPDF():
     urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
 
 def checkEggs():
+    downloadPDF()
     with pdfplumber.open('Menu_Semaine.pdf') as pdf:
         pages = pdf.pages
         page = pages[0].extract_text().lower()
