@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Lundi/Monday (50, 350, 2450, 600),
 # Mardi/Tuesday (50, 600, 2450, 825),
