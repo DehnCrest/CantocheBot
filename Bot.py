@@ -53,7 +53,7 @@ async def on_ready():
 @slash.slash(
     name="cantoche",
     description="Command to get the menu of the cantoche",
-    guild_ids=[622496521438625813], #guildlist,
+    guild_ids=guildlist,
     options=[
         create_option(
             name="day",
