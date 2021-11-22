@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 #Imports
 import datetime
@@ -21,11 +21,21 @@ with open('BotToken.txt', 'r') as f:
 
 #Dict to transform the int of the day, into a string
 daystr = {
-    0:"lundi",
-    1:"mardi",
-    2:"mercredi",
-    3:"jeudi",
-    4:"vendredi"
+    #French
+    "lundi":0,
+    "mardi":1,
+    "mercredi":2,
+    "jeudi":3,
+    "vendredi":4,
+    "semaine":7,
+
+    # English
+    "monday":10,
+    "tuesday":11,
+    "wednesday":12,
+    "thursday":13,
+    "friday":14,
+    "week":17
 }
 
 guildlist = []
@@ -43,7 +53,7 @@ async def on_ready():
 @slash.slash(
     name="cantoche",
     description="Command to get the menu of the cantoche",
-    guild_ids=guildlist,
+    guild_ids=[622496521438625813], #guildlist,
     options=[
         create_option(
             name="day",
@@ -53,27 +63,51 @@ async def on_ready():
             choices=[
                 create_choice(
                     name="Lundi",
-                    value="0"
+                    value="lundi"
                 ),
                 create_choice(
                     name="Mardi",
-                    value="1"
+                    value="mardi"
                 ),
                 create_choice(
                     name="Mercredi",
-                    value="2"
+                    value="mercredi"
                 ),
                 create_choice(
                     name="Jeudi",
-                    value="3"
+                    value="jeudi"
                 ),
                 create_choice(
                     name="Vendredi",
-                    value="4"
+                    value="vendredi"
                 ),
                 create_choice(
                     name="Semaine",
-                    value="7"
+                    value="semaine"
+                ),
+                create_choice(
+                    name="Monday",
+                    value="monday"
+                ),
+                create_choice(
+                    name="Tuesday",
+                    value="tuesday"
+                ),
+                create_choice(
+                    name="Wednesday",
+                    value="wednesday"
+                ),
+                create_choice(
+                    name="Thursday",
+                    value="thursday"
+                ),
+                create_choice(
+                    name="Friday",
+                    value="friday"
+                ),
+                create_choice(
+                    name="Week",
+                    value="week"
                 ),
             ]
         )
@@ -82,31 +116,52 @@ async def on_ready():
 async def _cantoche(ctx:SlashContext, day:str=None):
     if(day is None):
         day = datetime.datetime.today().weekday()
-    day = int(day)
-    eggs = Utils.checkEggs() #Download the PDF and checks if "oeuf" is a word in the menu
-    if(day in [0,1,2,3,4]): #If parameter is "Lundi", "Mardi","Mercredi","Jeudi" or "Vendredi"
+    else:
+        daymsg = day
+        day = daystr[day]
+    eggs = Utils.checkEggs() # Downloads the PDF and checks if "oeuf" is a word in the menu
+    if(day in [0,1,2,3,4]): # Checks for french version of weekday
         Utils.generatePNG()
         Utils.getPartPNG(day)
         with open('MenuDuJour.png', 'rb') as f:
             picture = discord.File(f)
-            if(eggs): #If the word "oeuf" was found in the PDF file
-                await ctx.send("Cette semaine il y aura des oeufs !\nJ'adore les oeufs !!\nVoici le menu du " + daystr[day] + ":", file = picture)
+            if(eggs): # If the word "oeuf" was found in the PDF file
+                await ctx.send(f'Cette semaine il y aura des oeufs !\nJ\'adore les oeufs !!\nVoici le menu du {daymsg} :', file = picture)
             else:
-                await ctx.send("Voici le menu du " + daystr[day] + ":", file = picture)
+                await ctx.send(f'Voici le menu du {daymsg} :', file = picture)
             return
-    elif(day in [5,6]): #If /cantoche is run during the week-end
+    elif(day in [10,11,12,13,14]): # Checks for english version of weekday
+        Utils.generatePNG()
+        Utils.getPartPNG(day-10)
+        with open('MenuDuJour.png', 'rb') as f:
+            picture = discord.File(f)
+            if(eggs): # If the word "oeuf" was found in the PDF file
+                await ctx.send(f'There will be eggs this week !\nI love eggs !!\nHere\'s the menu of {daymsg} :', file = picture)
+            else:
+                await ctx.send(f'Here\'s the menu of {daymsg} :', file = picture)
+            return
+    elif(day in [5,6]): # If /cantoche is run during the week-end
         await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
         return
-    elif(day == 7): #If the parameter is "semaine"
+    elif(day == 7): # If the parameter is "semaine"
         Utils.generatePNG()
         with open('Menu_Semaine.png', 'rb') as f:
             picture = discord.File(f)
-            if(eggs): #If the word "oeuf" was found in the PDF file
+            if(eggs): # If the word "oeuf" was found in the PDF file
                 await ctx.send("Il y a des oeufs cette semaine !\nVoici le menu de la semaine: ", file = picture)
             else:
                 await ctx.send("Voici le menu de la semaine: ", file = picture)
             return
+    elif(day==17): # If the parameter is "week"
+        Utils.generatePNG()
+        with open('Menu_Semaine.png', 'rb') as f:
+            picture = discord.File(f)
+            if(eggs): # If the word "oeuf" was found in the PDF file
+                await ctx.send("There's eggs this week !\nHere's the menu of the week: ", file = picture)
+            else:
+                await ctx.send("Here's the menu of the week: ", file = picture)
+            return
     else:
-        await ctx.send("Le jour spécifié n'a pas été compris, veuillez réessayer")
+        await ctx.send("Le jour spécifié n'a pas été compris, veuillez réessayer") # This should never be printed, but just in case
 
 client.run(TOKEN)
