@@ -116,6 +116,7 @@ async def on_ready():
 async def _cantoche(ctx:SlashContext, day:str=None):
     if(day is None):
         day = datetime.datetime.today().weekday()
+        daymsg = list(daystr.keys())[list(daystr.values()).index(day)]
     else:
         daymsg = day
         day = daystr[day]
