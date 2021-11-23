@@ -1,3 +1,6 @@
+# BY ADU - 23/11/21
+# Licence : CC-BY-NC-SA
+
 #!/usr/bin/python
 #
 
@@ -12,17 +15,17 @@ from pdf2image import convert_from_path
 from PIL import Image
 import urllib.request
 
-# Télécharge le fichier situé sur le serveur des mines
+# Downloads the PDF on IMT's web server
 def DownloadPDF():
     url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
     urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
 
-# Transforme le fichier PDF en fichier PNG pour le traiter plus facilement
+# Transforms the PDF into PNG
 def generatePNG():
     pages = convert_from_path('Menu_Semaine.pdf', dpi=150)
     pages[0].save('Menu_Semaine.png', 'PNG')
 
-# Récupère l'image du menu du jour
+# Get today's part menu
 def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
     rectdict = {
@@ -35,7 +38,3 @@ def getPartPNG(day):
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
     cropped_im.save('MenuDuJour.png', 'PNG')
-
-#DownloadPDF(day)
-#generatePNG(day)
-#getPartPNG(day)

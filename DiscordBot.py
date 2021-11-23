@@ -1,3 +1,6 @@
+# BY ADU - 23/11/21
+# Licence : CC-BY-NC-SA
+
 import discord
 import datetime
 from discord.ext.commands.bot import Bot
@@ -34,7 +37,7 @@ async def cantoche(ctx, day: str=None):
         CantocheBotPDF.getPartPNG(day)
         with open('MenuDuJour.png', 'rb') as f:
             picture = discord.File(f)
-            await ctx.send("Voici le menu du jour: ", file = picture)
+            await ctx.send("Voici le menu du jour : ", file = picture)
             return
     else:
         day = day.lower()
