@@ -12,11 +12,22 @@ The bot has been developed for the INFRES 12 SR class.
 * [Discord.py](https://discordpy.readthedocs.io/en/stable/)
 
 ### Usage :
-In the appropriate Discord channel : 
+Our CantocheBot works in French and in English.
+
+In the appropriate Discord channel :
+
+French Version
+   ```text
+   !cantoche         # Will return today's menu
+   !cantoche <jour>  # Will return the chosen day's menu
+   !cantoche semaine # Will return the whole week menu
+   ```
+
+English Version :
    ```text
    !cantoche         # Will return today's menu
    !cantoche <day>   # Will return the chosen day's menu
-   !cantoche semaine # Will return the whole week menu
+   !cantoche week    # Will return the whole week menu
    ```
 
 ### Example : 
