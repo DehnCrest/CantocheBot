@@ -1,5 +1,5 @@
-python3 -m pip install discord
-python3 -m pip install discord-py-slash-command
-python3 -m pip install pillow==8.0.0
-python3 -m pip install pdf2image
-python3 -m pip install pdfplumber
+# BY ADU - 23/11/21
+# Licence : CC-BY-NC-SA
+
+pip3 install discord
+pip3 install pdf2image
