@@ -14,13 +14,16 @@ with open('BotToken.txt', 'r') as f:
 PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
-language = ""
-versionmsg = "Bot: CantocheBot - Version 1.0.2\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
+# Is printed when !cantoche version is called
+versionmsg = "Bot: CantocheBot - Version 1.1\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
-# Dictionnary to manage weekday parameter
-daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4 }
-daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4 }
+# Define today's int
+todayint = datetime.datetime.today().weekday()
+
+# Dictionnaries to manage weekday parameter
+daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
+daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6 }
 
 client = discord.Client()
 
@@ -29,81 +32,111 @@ async def on_ready():
     print(f'Logged in as: {bot.user.name}')
     print(f'With ID: {bot.user.id}')
 
-@bot.command()
-async def cantoche(ctx, day: str=None):
-    if (day is None):
-        day = datetime.datetime.today().weekday()
-        CantocheBotPDF.DownloadPDF()
-        CantocheBotPDF.generatePNG()
-        CantocheBotPDF.getPartPNG(day)
-        with open('MenuDuJour.png', 'rb') as f:
-            picture = discord.File(f)
-            await ctx.send("Voici le menu du jour : ", file = picture)
-            return
-    else:
-        day = day.lower()
-        if(day == 'version'):
-            await ctx.send(versionmsg)
-            return
-        if(day == 'demain'):
-            if(datetime.datetime.today().weekday() == 6):
-                day = 'lundi'
-            elif(datetime.datetime.today().weekday() == 5):
-                day = 'dimanche'
-            elif(datetime.datetime.today().weekday() == 4):
-                day = 'samedi'
-            else:
-                day = list(daysfr.keys())[list(daysfr.values()).index(datetime.datetime.today().weekday() + 1)]
-        elif(day == 'tomorrow'):
-            if(datetime.datetime.today().weekday() == 6):
-                day = 'monday'
-            elif(datetime.datetime.today().weekday() == 5):
-                day = 'sunday'
-            elif(datetime.datetime.today().weekday() == 4):
-                day = 'saturday'
-            else:
-                day = list(daysen.keys())[list(daysen.values()).index(datetime.datetime.today().weekday() + 1)]
-        if(day in ['samedi', 'dimanche']):
-            await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
-            return
-        elif(day in ['saturday', 'sunday']):
-            await ctx.send("On week-end days, you are free to eat eggs")
-            return
-        if(day in daysfr.keys() or day in daysen.keys()):
-            if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']):
-                language = "fr"
-                daymsg = day
-                day = daysfr[day]
-            elif (day in ['monday','tuesday','wednesday','thursday','friday']):
-                language = "en"
-                daymsg = day
-                day = daysen[day]
+# This function is used to make the cantoche code more readable
+def runTasks(number, day: str=None):
+    match number:
+        case 1:
+            CantocheBotPDF.DownloadPDF()
+        case 2:
+            CantocheBotPDF.DownloadPDF()
+            CantocheBotPDF.generatePNG()
+        case 3:
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
             CantocheBotPDF.getPartPNG(day)
+
+@bot.command()
+async def cantoche(ctx, day: str=None):
+    # This is checking if the parameter is given or not
+    if (day is None):
+        day = todayint
+        # If the command is run a saturday or a sunday, without parameter
+        if(day in [5,6]):
+            await ctx.send(":flag_fr: Les jours de week-end, vous êtes libre de manger des oeufs\n:flag_gb: On week-end days, you are free to eat eggs")
+            return
+        # If the command is run on any other day, without parameter
+        else:
+            runTasks(3,day)
             with open('MenuDuJour.png', 'rb') as f:
                 picture = discord.File(f)
-                if(language == "fr"):
-                    await ctx.send("Voici le menu du " + daymsg + ":", file = picture)
-                    return
-                elif(language == "en"):
-                    await ctx.send("Here's the menu of " + daymsg + ":", file = picture)
-                    return
-        elif day == 'semaine' or day == 'week':
-            CantocheBotPDF.DownloadPDF()
-            CantocheBotPDF.generatePNG()
-            with open('Menu_Semaine.png', 'rb') as f:
-                picture = discord.File(f)
-                # If the parameter is "week" or "semaine"
-                if (day == "semaine"):
-                    await ctx.send("Voici le menu de la semaine: ", file = picture)
-                    return
-                elif (day == "week"):
-                    await ctx.send("Here's the menu of the week: ", file = picture)
-                    return
-        else:
-            await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry") # This should never be printed, but just in case
-            return
-        
+                await ctx.send(":flag_fr: Voici le menu du jour :\n:flag_gb: Here's the menu of the day :", file = picture)
+                return
+    else:
+        day = day.lower()
+        match day:
+            # If the parameter is 'version', send information about the bot
+            case 'version':
+                await ctx.send(versionmsg)
+                return
+            # If the parameter is 'demain', get the day name of today + 1
+            case 'demain':
+                match todayint:
+                    # If we are sunday, set the day to monday
+                    case 6:
+                        day = 'lundi'
+                    # On any other day, get day name of today + 1
+                    case _:
+                        day = list(daysfr.keys())[list(daysfr.values()).index(todayint + 1)]
+            # Same as above, for the english version
+            case 'tomorrow':
+                match todayint:
+                    # If we are sunday, set the day to monday
+                    case 6:
+                        day = 'monday'
+                        
+                    # On any other day, get day name of today + 1
+                    case _:
+                        day = list(daysen.keys())[list(daysen.values()).index(todayint + 1)]
+        match day:
+            # This is the check for the french parameter
+            case 'lundi' | 'mardi' | 'mercredi' | 'jeudi' | 'vendredi' | 'samedi' | 'dimanche' | 'semaine':
+                match day:                  
+                    # If the parameter is 'samedi' or 'dimanche', no menu as it's the weekend
+                    case 'samedi' | 'dimanche':
+                        await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
+                        return
+                    # If parameter is 'semaine', send the full menu of the week
+                    case 'semaine':
+                        runTasks(2)
+                        with open('Menu_Semaine.png', 'rb') as f:
+                            picture = discord.File(f)
+                            await ctx.send("Voici le menu de la semaine : ", file = picture)
+                            return                   
+                    # On any other day, get the menu of the specific day
+                    case _:
+                        daymsg = day
+                        day = daysfr[day]
+                        runTasks(3,day)
+                        with open('MenuDuJour.png', 'rb') as f:
+                            picture = discord.File(f)
+                            await ctx.send(f"Voici le menu du {daymsg} :", file = picture)
+                            return
+            # This is the check for the english parameter
+            case 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'week':
+                match day:                    
+                    # If the parameter is 'saturday' or 'sunday', no menu as it's the weekend
+                    case 'saturday' | 'sunday':
+                        await ctx.send("On week-end days, you are free to eat eggs")
+                        return
+                    # If parameter is 'week', send the full menu of the week
+                    case 'week':
+                        runTasks(2)
+                        with open('Menu_Semaine.png', 'rb') as f:
+                            picture = discord.File(f)
+                            await ctx.send("Here's the menu of the week :", file = picture)
+                            return
+                    # On any other day, get the menu of the specific day
+                    case _:
+                        daymsg = day
+                        day = daysen[day]
+                        runTasks(3,day)
+                        with open('MenuDuJour.png', 'rb') as f:
+                            picture = discord.File(f)
+                            await ctx.send(f"Here's the menu of {daymsg} :", file = picture)
+                            return
+            # In case where the parameter isn't recognized, print a message
+            case _:
+                await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry")
+                return
 
 bot.run(TOKEN)
