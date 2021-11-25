@@ -78,6 +78,7 @@ async def cantoche(ctx, day: str=None):
             CantocheBotPDF.generatePNG()
             with open('Menu_Semaine.png', 'rb') as f:
                 picture = discord.File(f)
+                # If the parameter is "week" or "semaine"
                 if (day == "semaine"):
                     await ctx.send("Voici le menu de la semaine: ", file = picture)
                     return
@@ -85,7 +86,7 @@ async def cantoche(ctx, day: str=None):
                     await ctx.send("Here's the menu of the week: ", file = picture)
                     return
         else:
-            await ctx.send("Votre jour n'a pas été compris, merci de réessayer") 
+            await ctx.send("Votre jour n'a pas été compris, merci de réessayer") # This should never be printed, but just in case
             return
         
 
