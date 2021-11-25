@@ -44,9 +44,9 @@ async def cantoche(ctx, day: str=None):
         if(day == 'demain'):
             if(datetime.datetime.today().weekday() == 6):
                 day = 'lundi'
-            elif(datetime.datetime.today().weekday() == 5)
+            elif(datetime.datetime.today().weekday() == 5):
                 day = 'dimanche'
-            elif(datetime.datetime.today().weekday() == 4)
+            elif(datetime.datetime.today().weekday() == 4):
                 day = 'samedi'
             else:
                 day = list(days.keys())[list(days.values()).index(datetime.datetime.today().weekday() + 1)]
