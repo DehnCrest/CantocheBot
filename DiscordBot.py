@@ -19,9 +19,6 @@ bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True
 # Is printed when !cantoche version is called
 versionmsg = "Bot: CantocheBot - Version 1.1\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
-# Define today's int
-todayint = datetime.datetime.today().weekday()
-
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
 daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6 }
@@ -46,9 +43,6 @@ emoji = {
     15:':cookie:'
     }
 
-# Pick a random emoji between 0 and 15
-randomemoji = random.randint(0, 15)
-
 client = discord.Client()
 
 @bot.event
@@ -71,6 +65,11 @@ def runTasks(number, day: str=None):
 
 @bot.command()
 async def cantoche(ctx, day: str=None):
+    # Pick a random emoji between 0 and 15
+    randomemoji = random.randint(0, 15) 
+    # Define today's int
+    todayint = datetime.datetime.today().weekday()
+
     # This is checking if the parameter is given or not
     if (day is None):
         day = todayint
