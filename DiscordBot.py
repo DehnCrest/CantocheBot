@@ -15,6 +15,7 @@ PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 language = ""
+versionmsg = "Cantoche: CantocheBot - Version 1.0\nPython version: 3.10\nOS: Debian 10 Buster"
 
 # Dictionnary to manage weekday parameter
 days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4,
@@ -42,7 +43,7 @@ async def cantoche(ctx, day: str=None):
     else:
         day = day.lower()
         if(day == 'version'):
-            await ctx.send("CantocheBot - Version 1.0")
+            await ctx.send(versionmsg)
             return
         if(day == 'demain'):
             if(datetime.datetime.today().weekday() == 6):
