@@ -16,8 +16,22 @@ PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 
+# Is printed when !cantoche help is called
+helpmsg = "Aide pour la version française :\
+```\
+!cantoche [jour]    -> Affiche le menu du jour spécifié \n\
+!cantoche           -> Affiche le menu du jour actuel\n\
+!cantoche demain    -> Affiche le menu du lendemain\n\
+!cantoche semaine   -> Affiche le menu de la semaine```\n\
+Help for the english version :\
+```\
+!cantoche [day]     -> Print the specified day's menu \n\
+!cantoche           -> Print the actual day's menu\n\
+!cantoche tomorrow  -> Print next day's menu\n\
+!cantoche week      -> Print the menu of the week```"
+
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.2\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
+versionmsg = "Bot: CantocheBot - Version 1.3\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -87,6 +101,10 @@ async def cantoche(ctx, day: str=None):
     else:
         day = day.lower()
         match day:
+            # If the paraleter is help, prints a useful guide for the bot
+            case 'help':
+                await ctx.send(helpmsg)
+                return
             # If the parameter is 'version', send information about the bot
             case 'version':
                 await ctx.send(versionmsg)
