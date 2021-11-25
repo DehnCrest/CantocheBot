@@ -6,6 +6,7 @@ import datetime
 from discord.ext.commands.bot import Bot
 import CantocheBotPDF
 from discord.ext import commands
+import random
 
 with open('BotToken.txt', 'r') as f:
     TOKEN = f.readline()
@@ -24,6 +25,29 @@ todayint = datetime.datetime.today().weekday()
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
 daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6 }
+
+# Dictionnary of food emojis
+emoji = { 
+    ':hotdog:':0, 
+    ':hamburger:':1, 
+    ':fries:':2, 
+    ':pizza:':3, 
+    ':stuffed_pita:':4, 
+    ':egg:':5, 
+    ':cooking:':6,
+    ':ramen:':7,
+    ':taco:':8,
+    ':carrot:':9,
+    ':poultry_leg:':10,
+    ':sushi:':11,
+    ':burrito:':12,
+    ':cake:':13,
+    ':doughnut:':14,
+    ':cookie:':15
+    }
+
+# Pick a random emoji between 0 and 15
+randomemoji = random.randint(0, 15)
 
 client = discord.Client()
 
