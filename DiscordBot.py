@@ -41,6 +41,16 @@ async def cantoche(ctx, day: str=None):
             return
     else:
         day = day.lower()
+        if(day == 'demain'):
+            if(datetime.datetime.today().weekday() == 6):
+                day = 'lundi'
+            elif(datetime.datetime.today().weekday() == 5)
+                day = 'dimanche'
+            elif(datetime.datetime.today().weekday() == 4)
+                day = 'samedi'
+            else:
+                day = list(days.keys())[list(days.values()).index(datetime.datetime.today().weekday() + 1)]
+
         if(day in ['samedi', 'dimanche']):
             await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
             return
