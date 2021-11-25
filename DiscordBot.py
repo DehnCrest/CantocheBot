@@ -17,6 +17,7 @@ bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True
 language = ""
 versionmsg = "Cantoche: CantocheBot - Version 1.0.1\nPython version: 3.10\nOS: Debian 10 Buster"
 
+
 # Dictionnary to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4 }
 daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4 }
