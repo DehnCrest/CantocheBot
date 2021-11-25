@@ -15,12 +15,12 @@ PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 language = ""
-versionmsg = "Cantoche: CantocheBot - Version 1.0\nPython version: 3.10\nOS: Debian 10 Buster"
+versionmsg = "Cantoche: CantocheBot - Version 1.0.1\nPython version: 3.10\nOS: Debian 10 Buster"
+
 
 # Dictionnary to manage weekday parameter
-days = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4,
-         'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4
-}
+daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4 }
+daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4 }
 
 client = discord.Client()
 
@@ -53,19 +53,31 @@ async def cantoche(ctx, day: str=None):
             elif(datetime.datetime.today().weekday() == 4):
                 day = 'samedi'
             else:
-                day = list(days.keys())[list(days.values()).index(datetime.datetime.today().weekday() + 1)]
-
+                day = list(daysfr.keys())[list(daysfr.values()).index(datetime.datetime.today().weekday() + 1)]
+        elif(day == 'tomorrow'):
+            if(datetime.datetime.today().weekday() == 6):
+                day = 'monday'
+            elif(datetime.datetime.today().weekday() == 5):
+                day = 'sunday'
+            elif(datetime.datetime.today().weekday() == 4):
+                day = 'saturday'
+            else:
+                day = list(daysen.keys())[list(daysen.values()).index(datetime.datetime.today().weekday() + 1)]
         if(day in ['samedi', 'dimanche']):
             await ctx.send("Les jours de week-end, vous êtes libre de manger des oeufs")
             return
         elif(day in ['saturday', 'sunday']):
             await ctx.send("On week-end days, you are free to eat eggs")
             return
-        if(day in days.keys()):
-            if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']): language = "fr"
-            elif (day in ['monday','tuesday','wednesday','thursday','friday']): language = "en"
-            daymsg = day
-            day = days[day]
+        if(day in daysfr.keys() or day in daysen.keys()):
+            if (day in ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi']):
+                language = "fr"
+                daymsg = day
+                day = daysfr[day]
+            elif (day in ['monday','tuesday','wednesday','thursday','friday']):
+                language = "en"
+                daymsg = day
+                day = daysen[day]
             CantocheBotPDF.DownloadPDF()
             CantocheBotPDF.generatePNG()
             CantocheBotPDF.getPartPNG(day)
