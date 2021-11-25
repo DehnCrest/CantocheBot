@@ -41,6 +41,9 @@ async def cantoche(ctx, day: str=None):
             return
     else:
         day = day.lower()
+        if(day == 'version'):
+            await ctx.send("CantocheBot - Version 1.0")
+            return
         if(day == 'demain'):
             if(datetime.datetime.today().weekday() == 6):
                 day = 'lundi'
