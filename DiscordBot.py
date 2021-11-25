@@ -15,7 +15,7 @@ PREFIX = '!'
 INTENTS = discord.Intents.default()
 bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True) #case_insensitive to fix caps issue
 language = ""
-versionmsg = "Cantoche: CantocheBot - Version 1.0.1\nPython version: 3.10\nOS: Debian 10 Buster"
+versionmsg = "Bot: CantocheBot - Version 1.0.2\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
 
 # Dictionnary to manage weekday parameter
@@ -102,7 +102,7 @@ async def cantoche(ctx, day: str=None):
                     await ctx.send("Here's the menu of the week: ", file = picture)
                     return
         else:
-            await ctx.send("Votre jour n'a pas été compris, merci de réessayer") # This should never be printed, but just in case
+            await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry") # This should never be printed, but just in case
             return
         
 
