@@ -77,7 +77,7 @@ def runTasks(number, day: str=None):
             CantocheBotPDF.generatePNG()
             CantocheBotPDF.getPartPNG(day)
 
-@bot.command()
+@bot.command(aliases=['ct'])
 async def cantoche(ctx, day: str=None):
     # Pick a random emoji between 0 and 15
     randomemoji = random.randint(0, 15) 
