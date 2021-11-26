@@ -8,8 +8,9 @@ from discord.ext.commands.bot import Bot
 import CantocheBotPDF
 from discord.ext import commands
 import random
+import os.path
 
-with open('BotToken.txt', 'r') as f:
+with open('TestToken.txt', 'r') as f:
     TOKEN = f.readline()
     f.close()
 
@@ -32,11 +33,12 @@ Help for the english version :\
 !cantoche week      -> Print the menu of the week```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.3\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
+versionmsg = "Bot: CantocheBot - Version 1.4Beta\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
 daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6 }
+daysentofr = { 'monday':'lundi', 'tuesday':'mardi', 'wednesday':'mercredi', 'thursday':'jeudi', 'friday':'vendredi', 'saturday':'samedi', 'sunday':'dimanche' }
 
 # Dictionnary of food emojis
 emoji = { 
@@ -84,6 +86,13 @@ async def cantoche(ctx, day: str=None):
     randomemoji = random.randint(0, 15) 
     # Define today's int
     todayint = datetime.datetime.today().weekday()
+    
+    if(not (os.path('./Menu_Semaine.pdf'))):
+        CantocheBotPDF.generateAllFiles
+    else:
+        pdfweeknbr = CantocheBotPDF.getWeek()
+        if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+            CantocheBotPDF.generateAllFiles()
 
     # This is checking if the parameter is given or not
     if (day is None):
@@ -95,15 +104,19 @@ async def cantoche(ctx, day: str=None):
         # If the command is run on any other day, without parameter
         else:
             runTasks(3,day)
-            with open('MenuDuJour.png', 'rb') as f:
+            with open('menudujour.png', 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
                 return
     else:
         day = day.lower()
         match day:
+
+            case 'forcedownload':
+                CantocheBotPDF.generateAllFiles()
+                await ctx.send(f":flag_fr: Tous les fichiers ont été téléchargés\n:flag_gb: All files have been downloaded")
             # If the paraleter is help, prints a useful guide for the bot
-            case 'help':
+            case 'help' | 'aide':
                 await ctx.send(helpmsg)
                 return
             # If the parameter is 'version', send information about the bot
@@ -148,8 +161,8 @@ async def cantoche(ctx, day: str=None):
                     case _:
                         daymsg = day
                         day = daysfr[day]
-                        runTasks(3,day)
-                        with open('MenuDuJour.png', 'rb') as f:
+                        # runTasks(3,day)
+                        with open(f'MenuDu{daymsg}.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Voici le menu du {daymsg} {emoji[randomemoji]}:", file = picture)
                             return
@@ -171,8 +184,8 @@ async def cantoche(ctx, day: str=None):
                     case _:
                         daymsg = day
                         day = daysen[day]
-                        runTasks(3,day)
-                        with open('MenuDuJour.png', 'rb') as f:
+                        # runTasks(3,day)
+                        with open(f'MenuDu{daysentofr[daymsg]}.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Here's the menu of {daymsg} {emoji[randomemoji]} :", file = picture)
                             return
@@ -180,5 +193,6 @@ async def cantoche(ctx, day: str=None):
             case _:
                 await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry")
                 return
+
 
 bot.run(TOKEN)

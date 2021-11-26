@@ -14,6 +14,30 @@ import datetime
 from pdf2image import convert_from_path
 from PIL import Image
 import urllib.request
+import pdfplumber
+
+days = {
+    0:'Lundi',
+    1:'Mardi',
+    2:'Mercredi',
+    3:'Jeudi',
+    4:'Vendredi'
+}
+
+monthfrtoen = {
+    'janvier':'january',
+    'fevrier':'february',
+    'mars':'march',
+    'avril':'april',
+    'mai':'may',
+    'juin':'june',
+    'juillet':'july',
+    'aout':'august',
+    'septembre':'september',
+    'octobre':'october',
+    'novembre':'november',
+    'decembre':'december'
+}
 
 # Downloads the PDF on IMT's web server
 def DownloadPDF():
@@ -37,4 +61,21 @@ def getPartPNG(day):
     }
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
-    cropped_im.save('MenuDuJour.png', 'PNG')
+    cropped_im.save(f'MenuDu{days[day]}.png', 'PNG')
+
+def generateAllFiles():
+    DownloadPDF()
+    generatePNG()
+    getPartPNG(0)
+    getPartPNG(1)
+    getPartPNG(2)
+    getPartPNG(3)
+    getPartPNG(4)
+
+def getWeek():
+    with pdfplumber.open('Menu_Semaine.pdf') as pdf:
+        page = pdf.pages[0].extract_text().lower()
+        page = page.split('\n')[1].split()
+        mth = datetime.datetime.strptime(monthfrtoen[page[2]], "%B")
+        month_number = mth.month
+        return int(datetime.date(int(page[7]),month_number,int(page[1])).isocalendar().week)
