@@ -1,4 +1,4 @@
-# 🍟 CantocheBot 🍟
+<p align='center'><h1>🍟 CantocheBot 🍟</h1></p>
 
 Discord bot to announce on a channel today's menu at the school's restaurant.
 The bot has been developed for the INFRES 12 SR class.
