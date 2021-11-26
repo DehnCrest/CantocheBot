@@ -3,8 +3,8 @@
 Discord bot to announce on a channel today's menu at the school's restaurant.
 The bot has been developed for the INFRES 12 SR class.
 
-<center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/IMT_Mines_Al%C3%A8s.svg/langfr-220px-IMT_Mines_Al%C3%A8s.svg.png"></img>
-</center>
+<p align='center'><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/IMT_Mines_Al%C3%A8s.svg/langfr-220px-IMT_Mines_Al%C3%A8s.svg.png"></img>
+</p>
 
 
 ### Developed with : 
@@ -18,17 +18,21 @@ In the appropriate Discord channel :
 
 French Version
    ```text
-   !cantoche         # Will return today's menu
-   !cantoche <jour>  # Will return the chosen day's menu
-   !cantoche semaine # Will return the whole week menu
+   !cantoche            # Will return today's menu
+   !cantoche <jour>     # Will return the chosen day's menu
+   !cantoche semaine    # Will return the whole week menu
+   !cantoche demain     # Will return tomorrow's menu
    ```
 
 English Version :
    ```text
-   !cantoche         # Will return today's menu
-   !cantoche <day>   # Will return the chosen day's menu
-   !cantoche week    # Will return the whole week menu
+   !cantoche            # Will return today's menu
+   !cantoche <day>      # Will return the chosen day's menu
+   !cantoche week       # Will return the whole week menu
+   !cantoche tomorrow   # Will return tomorrow's menu
    ```
+
+The `!ct` alias exists also to simplify the call of the bot.
 
 ### Example : 
 
@@ -67,9 +71,7 @@ Under the following terms:
 
 ➡️ Aloïs Koestlé - INFRES 12
 
-➡️ Benjamin Saby - INFRES 12
 
-**Project Manager :**
+**Project Manager & Junior Python Developer :**
 
 ➡️ Alexandre Dupouy - INFRES 12
-
