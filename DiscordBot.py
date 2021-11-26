@@ -1,5 +1,5 @@
 # BY ADU - 23/11/21
-# AKOE dl_optimization
+# AKOE - dl_optimization
 # Licence : CC-BY-NC-SA
 
 import discord
