@@ -84,7 +84,10 @@ async def cantoche(ctx, day: str=None):
         pdfweeknbr = CantocheBotPDF.getWeek()
         if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
             CantocheBotPDF.generateAllFiles()
-            await ctx.send(":flag_fr: SemainePDF ≠ Semaine actuelle, les nouveaux fichiers ont été téléchargés\n:flag_gb: PDFWeek ≠ Acutal week, new files have been downloaded")
+            if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+                await ctx.send(":flag_fr: Menu retéléchargé, mais il s'agit toujours du menu de la semaine dernière :x:\n:flag_gb: Menu redownoaded, but it's still the previous week's menu :x:")
+            else:
+                await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
 
     # This is checking if the parameter is given or not
     if (day is None):
