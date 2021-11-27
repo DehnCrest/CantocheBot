@@ -18,11 +18,11 @@ import urllib.request
 import pdfplumber
 
 days = {
-    0:'Lundi',
-    1:'Mardi',
-    2:'Mercredi',
-    3:'Jeudi',
-    4:'Vendredi'
+    0:'lundi',
+    1:'mardi',
+    2:'mercredi',
+    3:'jeudi',
+    4:'vendredi'
 }
 
 monthfrtoen = {
