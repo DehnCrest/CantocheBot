@@ -86,6 +86,7 @@ async def cantoche(ctx, day: str=None):
             CantocheBotPDF.generateAllFiles()
             if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
                 await ctx.send(":flag_fr: Menu retéléchargé, mais il s'agit toujours du menu de la semaine dernière :x:\n:flag_gb: Menu redownoaded, but it's still the previous week's menu :x:")
+                return
             else:
                 await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
 
@@ -99,7 +100,7 @@ async def cantoche(ctx, day: str=None):
         # If the command is run on any other day, without parameter
         else:
             day = list(daysfr.keys())[list(daysfr.values()).index(day)]
-            with open(f'menudu{day}.png', 'rb') as f:
+            with open(f'MenuDu{day}.png', 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
                 return
