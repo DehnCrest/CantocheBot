@@ -33,7 +33,7 @@ Help for the english version :\
 !cantoche or !ct week      -> Print the menu of the week```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.4 Beta\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
+versionmsg = "Bot: CantocheBot - Version 1.4\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -135,7 +135,7 @@ async def cantoche(ctx, day: str=None):
                 match todayint:
                     # If we are sunday, set the day to monday
                     case 6:
-                        await ctx.send("It's sunday, the menu isn't up to date to propose tomrorrow's menu")
+                        await ctx.send("It's sunday, the menu isn't up to date to propose tomorrow's menu")
                         return
                     # On any other day, get day name of today + 1
                     case _:
