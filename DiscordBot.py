@@ -1,4 +1,4 @@
-# BY ADU - 23/11/21
+# LAST UPDATED AKOE - 29/11/21
 # Licence : CC-BY-NC-SA
 
 import discord
@@ -7,6 +7,7 @@ from discord.ext.commands.bot import Bot
 import CantocheBotPDF
 from discord.ext import commands
 import random
+import os.path
 
 with open('BotToken.txt', 'r') as f:
     TOKEN = f.readline()
@@ -19,23 +20,24 @@ bot = commands.Bot(command_prefix=PREFIX, intents=INTENTS, case_insensitive=True
 # Is printed when !cantoche help is called
 helpmsg = "Aide pour la version française :\
 ```\
-!cantoche [jour]    -> Affiche le menu du jour spécifié \n\
-!cantoche           -> Affiche le menu du jour actuel\n\
-!cantoche demain    -> Affiche le menu du lendemain\n\
-!cantoche semaine   -> Affiche le menu de la semaine```\n\
+!cantoche ou !ct [jour]     -> Affiche le menu du jour spécifié \n\
+!cantoche ou !ct            -> Affiche le menu du jour actuel\n\
+!cantoche ou !ct demain     -> Affiche le menu du lendemain\n\
+!cantoche ou !ct semaine    -> Affiche le menu de la semaine```\n\
 Help for the english version :\
 ```\
-!cantoche [day]     -> Print the specified day's menu \n\
-!cantoche           -> Print the actual day's menu\n\
-!cantoche tomorrow  -> Print next day's menu\n\
-!cantoche week      -> Print the menu of the week```"
+!cantoche or !ct [day]     -> Print the specified day's menu \n\
+!cantoche or !ct           -> Print the actual day's menu\n\
+!cantoche or !ct tomorrow  -> Print next day's menu\n\
+!cantoche or !ct week      -> Print the menu of the week```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.3\nPython version: 3.10\nOS: Debian 10 Buster (AMD64)"
+versionmsg = "Bot: CantocheBot - Version 1.4\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
 daysen = { 'monday':0, 'tuesday':1, 'wednesday':2, 'thursday':3, 'friday':4, 'saturday':5, 'sunday':6 }
+daysentofr = { 'monday':'lundi', 'tuesday':'mardi', 'wednesday':'mercredi', 'thursday':'jeudi', 'friday':'vendredi', 'saturday':'samedi', 'sunday':'dimanche' }
 
 # Dictionnary of food emojis
 emoji = { 
@@ -64,25 +66,28 @@ async def on_ready():
     print(f'Logged in as: {bot.user.name}')
     print(f'With ID: {bot.user.id}')
 
-# This function is used to make the cantoche code more readable
-def runTasks(number, day: str=None):
-    match number:
-        case 1:
-            CantocheBotPDF.DownloadPDF()
-        case 2:
-            CantocheBotPDF.DownloadPDF()
-            CantocheBotPDF.generatePNG()
-        case 3:
-            CantocheBotPDF.DownloadPDF()
-            CantocheBotPDF.generatePNG()
-            CantocheBotPDF.getPartPNG(day)
-
 @bot.command(aliases=['ct'])
 async def cantoche(ctx, day: str=None):
-    # Pick a random emoji between 0 and 15
-    randomemoji = random.randint(0, 15) 
-    # Define today's int
+    # Picks a random emoji between 0 and 15
+    randomemoji = random.randint(0, 15)
+
+    # Defines today's int
     todayint = datetime.datetime.today().weekday()
+    
+    # Generates all files if PDF isn't in folder
+    if(not (os.path.isfile('./Menu_Semaine.pdf'))):
+        CantocheBotPDF.generateAllFiles()
+        await ctx.send(":flag_fr: Les fichiers n'étaient pas présent, ils viennent d'être téléchargés \n:flag_gb: Files weren't present, they have been dowloaded")
+    # Compare the PDF week with the current week int, if it differs, downloads the new PDF
+    else:
+        pdfweeknbr = CantocheBotPDF.getWeek()
+        if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+            CantocheBotPDF.generateAllFiles()
+            if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+                await ctx.send(":flag_fr: Menu retéléchargé, mais il s'agit toujours du menu de la semaine dernière :x:\n:flag_gb: Menu redownoaded, but it's still the previous week's menu :x:")
+                return
+            else:
+                await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
 
     # This is checking if the parameter is given or not
     if (day is None):
@@ -93,16 +98,21 @@ async def cantoche(ctx, day: str=None):
             return
         # If the command is run on any other day, without parameter
         else:
-            runTasks(3,day)
-            with open('MenuDuJour.png', 'rb') as f:
+            day = list(daysfr.keys())[list(daysfr.values()).index(day)]
+            with open(f'MenuDu{day}.png', 'rb') as f:
                 picture = discord.File(f)
                 await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
                 return
     else:
         day = day.lower()
         match day:
-            # If the paraleter is help, prints a useful guide for the bot
-            case 'help':
+            # Can be used if the bot is locked on an old version, when the new is available on the server (shouldn't arrive)
+            case 'forcedownload':
+                CantocheBotPDF.generateAllFiles()
+                await ctx.send(f":flag_fr: Tous les fichiers ont été téléchargés\n:flag_gb: All files have been downloaded")
+                return
+            # If the paraleter is help or aide, prints a useful guide for the bot
+            case 'help' | 'aide':
                 await ctx.send(helpmsg)
                 return
             # If the parameter is 'version', send information about the bot
@@ -114,7 +124,8 @@ async def cantoche(ctx, day: str=None):
                 match todayint:
                     # If we are sunday, set the day to monday
                     case 6:
-                        day = 'lundi'
+                        await ctx.send("Nous sommes dimanche, le menu n'est pas à jour pour que je puisse vous proposer le menu de demain")
+                        return
                     # On any other day, get day name of today + 1
                     case _:
                         day = list(daysfr.keys())[list(daysfr.values()).index(todayint + 1)]
@@ -123,8 +134,8 @@ async def cantoche(ctx, day: str=None):
                 match todayint:
                     # If we are sunday, set the day to monday
                     case 6:
-                        day = 'monday'
-                        
+                        await ctx.send("It's sunday, the menu isn't up to date to propose tomorrow's menu")
+                        return
                     # On any other day, get day name of today + 1
                     case _:
                         day = list(daysen.keys())[list(daysen.values()).index(todayint + 1)]
@@ -138,7 +149,6 @@ async def cantoche(ctx, day: str=None):
                         return
                     # If parameter is 'semaine', send the full menu of the week
                     case 'semaine':
-                        runTasks(2)
                         with open('Menu_Semaine.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Voici le menu de la semaine {emoji[randomemoji]} : ", file = picture)
@@ -147,8 +157,7 @@ async def cantoche(ctx, day: str=None):
                     case _:
                         daymsg = day
                         day = daysfr[day]
-                        runTasks(3,day)
-                        with open('MenuDuJour.png', 'rb') as f:
+                        with open(f'MenuDu{daymsg}.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Voici le menu du {daymsg} {emoji[randomemoji]}:", file = picture)
                             return
@@ -161,7 +170,6 @@ async def cantoche(ctx, day: str=None):
                         return
                     # If parameter is 'week', send the full menu of the week
                     case 'week':
-                        runTasks(2)
                         with open('Menu_Semaine.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Here's the menu of the week {emoji[randomemoji]} :", file = picture)
@@ -170,8 +178,7 @@ async def cantoche(ctx, day: str=None):
                     case _:
                         daymsg = day
                         day = daysen[day]
-                        runTasks(3,day)
-                        with open('MenuDuJour.png', 'rb') as f:
+                        with open(f'MenuDu{daysentofr[daymsg]}.png', 'rb') as f:
                             picture = discord.File(f)
                             await ctx.send(f"Here's the menu of {daymsg} {emoji[randomemoji]} :", file = picture)
                             return
@@ -179,5 +186,6 @@ async def cantoche(ctx, day: str=None):
             case _:
                 await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry")
                 return
+
 
 bot.run(TOKEN)
