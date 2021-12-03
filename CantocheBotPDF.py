@@ -54,11 +54,11 @@ def generatePNG():
 def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
     rectdict = {
-        0:(50, 350, 2450, 600),
+        0:(50, 350, 2450, 590),
         1:(50, 600, 2450, 825),
-        2:(50, 825, 2450, 1075),
-        3:(50, 1075, 2450, 1300),
-        4:(50, 1300, 2450, 1550)
+        2:(50, 830, 2450, 1070),
+        3:(50, 1075, 2450, 1320),
+        4:(50, 1320, 2450, 1570)
     }
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
@@ -86,3 +86,5 @@ def getWeek():
         month_number = mth.month
         # Returns the week number of the pdf
         return int(datetime.date(int(page[7]),month_number,int(page[1])).isocalendar().week)
+
+generateAllFiles()
