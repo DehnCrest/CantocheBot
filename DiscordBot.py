@@ -33,7 +33,7 @@ Help for the english version :\
 !cantoche or !ct week      -> Print the menu of the week```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.4\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
+versionmsg = "Bot: CantocheBot - Version 1.5 Beta\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -69,6 +69,12 @@ async def on_ready():
 
 @bot.command(aliases=['ct'])
 async def cantoche(ctx, day: str=None):
+
+    # Read the daily counter
+    f = open('dailycount.txt', 'r')
+    cntr = f.readlines()
+    f.close
+
     # Picks a random emoji between 0 and 15
     randomemoji = random.randint(0, 15)
 
@@ -119,6 +125,16 @@ async def cantoche(ctx, day: str=None):
             # If the parameter is 'version', send information about the bot
             case 'version':
                 await ctx.send(versionmsg)
+                return
+            # If the parameter is 'stats', send daily stats
+            case 'stats':
+                await ctx.send(f"Le bot a été utilisé : {cntr} fois aujourd'hui.")
+                # Open and close the file : it clears it (read mode)
+                open("dailycount.txt", "w").close()
+                # Increment the value
+                f = open('dailycount.txt', 'w')
+                print(cntr =+ 1, file=f)
+                f.close()
                 return
             # If the parameter is 'demain', get the day name of today + 1
             case 'demain':
@@ -187,6 +203,5 @@ async def cantoche(ctx, day: str=None):
             case _:
                 await ctx.send(":flag_fr: Votre jour n'a pas été compris, merci de réessayer\n:flag_gb: Your day hasn't been understood, please retry")
                 return
-
 
 bot.run(TOKEN)
