@@ -22,6 +22,7 @@ French Version
    !cantoche <jour>     # Will return the chosen day's menu
    !cantoche semaine    # Will return the whole week menu
    !cantoche demain     # Will return tomorrow's menu
+   !cantoche stats      # Will return the bot's daily usage (stats)
    ```
 
 English Version :
@@ -30,6 +31,7 @@ English Version :
    !cantoche <day>      # Will return the chosen day's menu
    !cantoche week       # Will return the whole week menu
    !cantoche tomorrow   # Will return tomorrow's menu
+   !cantoche stats      # Will return the bot's daily usage (stats)
    ```
 
 The `!ct` alias exists also to simplify the call of the bot.
