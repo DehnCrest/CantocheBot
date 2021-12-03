@@ -24,13 +24,15 @@ helpmsg = "Aide pour la version française :\
 !cantoche ou !ct [jour]     -> Affiche le menu du jour spécifié \n\
 !cantoche ou !ct            -> Affiche le menu du jour actuel\n\
 !cantoche ou !ct demain     -> Affiche le menu du lendemain\n\
-!cantoche ou !ct semaine    -> Affiche le menu de la semaine```\n\
+!cantoche ou !ct semaine    -> Affiche le menu de la semaine\n\
+!cantoche ou !ct stats      -> Affiche le compteur d'appels journalier```\n\
 Help for the english version :\
 ```\
-!cantoche or !ct [day]     -> Print the specified day's menu \n\
-!cantoche or !ct           -> Print the actual day's menu\n\
-!cantoche or !ct tomorrow  -> Print next day's menu\n\
-!cantoche or !ct week      -> Print the menu of the week```"
+!cantoche or !ct [day]     -> Prints the specified day's menu \n\
+!cantoche or !ct           -> Prints the actual day's menu\n\
+!cantoche or !ct tomorrow  -> Prints next day's menu\n\
+!cantoche or !ct week      -> Prints the menu of the week\n\
+!cantoche or !ct stats     -> Prints the daily call's counter```"
 
 # Is printed when !cantoche version is called
 versionmsg = "Bot: CantocheBot - Version 1.5 Beta\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
@@ -60,6 +62,14 @@ emoji = {
     15:':cookie:'
     }
 
+# Function to increment the daily number by one
+def appendToFile(cntr):
+    open('dailycount.txt', 'w').close()
+    with open('dailycount.txt', 'a') as f:
+        cntr += 1
+        f.write(str(cntr))
+        f.close()
+
 client = discord.Client()
 
 @bot.event
@@ -71,9 +81,9 @@ async def on_ready():
 async def cantoche(ctx, day: str=None):
 
     # Read the daily counter
-    f = open('dailycount.txt', 'r')
-    cntr = f.readlines()
-    f.close
+    with open('dailycount.txt', 'r+') as f:
+        cntr = f.readline()
+        f.close()
 
     # Picks a random emoji between 0 and 15
     randomemoji = random.randint(0, 15)
@@ -99,6 +109,7 @@ async def cantoche(ctx, day: str=None):
     # This is checking if the parameter is given or not
     if (day is None):
         day = todayint
+        appendToFile(int(cntr))
         # If the command is run a saturday or a sunday, without parameter
         if(day in [5,6]):
             await ctx.send(":flag_fr: Les jours de week-end, vous êtes libre de manger des oeufs :egg: \n:flag_gb: On week-end days, you are free to eat eggs :egg:")
@@ -128,13 +139,7 @@ async def cantoche(ctx, day: str=None):
                 return
             # If the parameter is 'stats', send daily stats
             case 'stats':
-                await ctx.send(f"Le bot a été utilisé : {cntr} fois aujourd'hui.")
-                # Open and close the file : it clears it (read mode)
-                open("dailycount.txt", "w").close()
-                # Increment the value
-                f = open('dailycount.txt', 'w')
-                print(cntr =+ 1, file=f)
-                f.close()
+                await ctx.send(f"Le bot a été utilisé : {str(cntr)} fois aujourd'hui.")
                 return
             # If the parameter is 'demain', get the day name of today + 1
             case 'demain':
@@ -159,6 +164,7 @@ async def cantoche(ctx, day: str=None):
         match day:
             # This is the check for the french parameter
             case 'lundi' | 'mardi' | 'mercredi' | 'jeudi' | 'vendredi' | 'samedi' | 'dimanche' | 'semaine':
+                appendToFile(int(cntr))
                 match day:                  
                     # If the parameter is 'samedi' or 'dimanche', no menu as it's the weekend
                     case 'samedi' | 'dimanche':
@@ -180,6 +186,7 @@ async def cantoche(ctx, day: str=None):
                             return
             # This is the check for the english parameter
             case 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'week':
+                appendToFile(int(cntr))
                 match day:                    
                     # If the parameter is 'saturday' or 'sunday', no menu as it's the weekend
                     case 'saturday' | 'sunday':
