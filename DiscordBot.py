@@ -1,4 +1,4 @@
-# LAST UPDATED AKOE - 29/11/21
+# AKOE - ADU - CantocheBot - Latest 06/12/21
 # AKOE - issue_32 06/12/21
 # Licence : CC-BY-NC-SA
 
@@ -35,7 +35,7 @@ Help for the english version :\
 !cantoche or !ct stats     -> Prints the daily call's counter```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.5 Beta\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
+versionmsg = "Bot: CantocheBot - Version 1.5\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -144,7 +144,7 @@ async def cantoche(ctx, day: str=None):
                 return
             # If the parameter is 'stats', send daily stats
             case 'stats':
-                await ctx.send(f"Le bot a été utilisé : {str(cntr)} fois aujourd'hui.")
+                await ctx.send(f":flag_fr: Le bot a été utilisé : {str(cntr)} fois aujourd'hui\n:flag_gb: The bot has been used {str(cntr)} times today")
                 return
             # If the parameter is 'demain', get the day name of today + 1
             case 'demain':

@@ -37,7 +37,7 @@ monthfrtoen = {
     'septembre':'september',
     'octobre':'october',
     'novembre':'november',
-    'decembre':'december'
+    'décembre':'december'
 }
 
 # Downloads the PDF on IMT's web server
