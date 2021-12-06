@@ -62,7 +62,6 @@ emoji = {
     15:':cookie:'
     }
 
-newWeek = True
 
 # Function to increment the daily number by one
 def appendToFile(cntr):
@@ -82,6 +81,7 @@ async def on_ready():
 @bot.command(aliases=['ct'])
 async def cantoche(ctx, day: str=None):
 
+    newWeek = True
     # Read the daily counter
     with open('dailycount.txt', 'r+') as f:
         cntr = f.readline()
