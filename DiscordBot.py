@@ -1,5 +1,5 @@
 # LAST UPDATED AKOE - 29/11/21
-# ADU - Daily counter 03/12/21
+# AKOE - issue_32 06/12/21
 # Licence : CC-BY-NC-SA
 
 import discord
