@@ -40,16 +40,20 @@ The `!ct` alias exists also to simplify the call of the bot.
 
 Default usage :
 
-![image](https://user-images.githubusercontent.com/18117508/136535956-04b224ee-f95b-40c4-a758-360916e19426.png)
-
+![image](https://user-images.githubusercontent.com/18117508/144832502-de48f8d4-4dcb-4d8b-bbd3-7d1711ab3bed.png)
 
 With day specified :
 
-![image](https://user-images.githubusercontent.com/18117508/136535845-8920a363-66b1-4ab9-8de6-7526599da281.png)
+![image](https://user-images.githubusercontent.com/18117508/144832564-67bf200f-721e-4a8f-9969-eb443dde2b6e.png)
 
 Whole week :
 
-![image](https://user-images.githubusercontent.com/18117508/136536044-bd4acc1c-8f53-4aeb-83eb-7cafe0d5ac51.png)
+![image](https://user-images.githubusercontent.com/18117508/144832626-5272ea74-e55e-4c06-bb97-69709ae0e1f2.png)
+
+Bot usage statistics :
+
+![image](https://user-images.githubusercontent.com/18117508/144832705-ff99e2d6-fa10-4696-b49e-90ed0d27f7b4.png)
+
 
 ### License : 
 ![image](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
