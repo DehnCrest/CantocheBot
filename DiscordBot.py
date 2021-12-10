@@ -1,5 +1,5 @@
 # AKOE - ADU - CantocheBot - Latest 06/12/21
-# AKOE - issue_32 06/12/21
+# AKOE - feature_35 10/12/21
 # Licence : CC-BY-NC-SA
 
 import discord
@@ -93,6 +93,9 @@ async def cantoche(ctx, day: str=None):
     # Defines today's int
     todayint = datetime.datetime.today().weekday()
     
+    # Defines current time
+    now = datetime.datetime.now()
+
     # Generates all files if PDF isn't in folder
     if(not (os.path.isfile('./Menu_Semaine.pdf'))):
         CantocheBotPDF.generateAllFiles()
