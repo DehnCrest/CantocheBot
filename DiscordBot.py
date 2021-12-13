@@ -35,7 +35,7 @@ Help for the english version :\
 !cantoche or !ct stats     -> Prints the daily call's counter```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.6\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
+versionmsg = "Bot: CantocheBot - Version 1.6.1 Beta\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
