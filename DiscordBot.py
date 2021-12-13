@@ -1,5 +1,5 @@
 # AKOE - ADU - CantocheBot - Latest 06/12/21
-# AKOE - feature_35 10/12/21
+# AKOE - fix_redl 13/12/21
 # Licence : CC-BY-NC-SA
 
 import discord
@@ -10,7 +10,7 @@ from discord.ext import commands
 import random
 import os.path
 
-with open('BotToken.txt', 'r') as f:
+with open('TestToken.txt', 'r') as f:
     TOKEN = f.readline()
     f.close()
 
