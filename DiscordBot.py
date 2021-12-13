@@ -71,6 +71,23 @@ def appendToFile(cntr):
         f.write(str(cntr))
         f.close()
 
+async def checkFiles(ctx):
+    # Generates all files if PDF isn't in folder
+    if(not (os.path.isfile('./Menu_Semaine.pdf'))):
+        CantocheBotPDF.generateAllFiles()
+        await ctx.send(":flag_fr: Les fichiers n'étaient pas présent, ils viennent d'être téléchargés \n:flag_gb: Files weren't present, they have been dowloaded")
+    # Compare the PDF week with the current week int, if it differs, downloads the new PDF
+    else:
+        pdfweeknbr = CantocheBotPDF.getWeek()
+        if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+            CantocheBotPDF.generateAllFiles()
+            if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
+                await ctx.send(":flag_fr: Menu retéléchargé, mais il s'agit toujours du menu de la semaine dernière :x:\n:flag_gb: Menu redownloaded, but it's still the previous week's menu :x:")
+                return False
+            else:
+                await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
+                return True
+
 client = discord.Client()
 
 @bot.event
@@ -81,11 +98,12 @@ async def on_ready():
 @bot.command(aliases=['ct'])
 async def cantoche(ctx, day: str=None):
 
-    newWeek = True
     # Read the daily counter
     with open('dailycount.txt', 'r+') as f:
         cntr = f.readline()
         f.close()
+
+    newWeek = True
 
     # Picks a random emoji between 0 and 15
     randomemoji = random.randint(0, 15)
@@ -96,27 +114,9 @@ async def cantoche(ctx, day: str=None):
     # Defines current time
     now = datetime.datetime.now()
 
-    # Generates all files if PDF isn't in folder
-    if(not (os.path.isfile('./Menu_Semaine.pdf'))):
-        CantocheBotPDF.generateAllFiles()
-        await ctx.send(":flag_fr: Les fichiers n'étaient pas présent, ils viennent d'être téléchargés \n:flag_gb: Files weren't present, they have been dowloaded")
-    # Compare the PDF week with the current week int, if it differs, downloads the new PDF
-    else:
-        if(day == 'help' or day == 'aide' or day == 'stats' or day == 'version'):
-            pass
-        else:
-            pdfweeknbr = CantocheBotPDF.getWeek()
-            if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
-                CantocheBotPDF.generateAllFiles()
-                if(pdfweeknbr != int(datetime.datetime.now().strftime("%W"))):
-                    await ctx.send(":flag_fr: Menu retéléchargé, mais il s'agit toujours du menu de la semaine dernière :x:\n:flag_gb: Menu redownloaded, but it's still the previous week's menu :x:")
-                    newWeek = False
-                else:
-                    await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
-                    newWeek = True
-
     # This is checking if the parameter is given or not
     if (day is None):
+        newWeek = await checkFiles(ctx)
         if(not newWeek):
             return
         day = todayint
@@ -156,9 +156,7 @@ async def cantoche(ctx, day: str=None):
                 await ctx.send(f":flag_fr: Le bot a été utilisé : {str(cntr)} fois aujourd'hui\n:flag_gb: The bot has been used {str(cntr)} times today")
                 return
             # If the parameter is 'demain', get the day name of today + 1
-            case 'demain':
-                if(not newWeek):
-                    return                
+            case 'demain':              
                 match todayint:
                     # If we are sunday, set the day to monday
                     case 6:
@@ -169,8 +167,6 @@ async def cantoche(ctx, day: str=None):
                         day = list(daysfr.keys())[list(daysfr.values()).index(todayint + 1)]
             # Same as above, for the english version
             case 'tomorrow':
-                if(not newWeek):
-                    return
                 match todayint:
                     # If we are sunday, set the day to monday
                     case 6:
@@ -182,6 +178,7 @@ async def cantoche(ctx, day: str=None):
         match day:
             # This is the check for the french parameter
             case 'lundi' | 'mardi' | 'mercredi' | 'jeudi' | 'vendredi' | 'samedi' | 'dimanche' | 'semaine':
+                newWeek = await checkFiles(ctx)
                 if(not newWeek):
                     return
                 appendToFile(int(cntr))
@@ -206,6 +203,7 @@ async def cantoche(ctx, day: str=None):
                             return
             # This is the check for the english parameter
             case 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'week':
+                newWeek = await checkFiles(ctx)
                 if(not newWeek):
                     return
                 appendToFile(int(cntr))
