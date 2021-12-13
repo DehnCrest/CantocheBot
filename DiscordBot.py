@@ -10,7 +10,7 @@ from discord.ext import commands
 import random
 import os.path
 
-with open('TestToken.txt', 'r') as f:
+with open('BotToken.txt', 'r') as f:
     TOKEN = f.readline()
     f.close()
 
