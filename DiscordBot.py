@@ -87,6 +87,8 @@ async def checkFiles(ctx):
             else:
                 await ctx.send(":flag_fr: Menu retéléchargé, il s'agit de celui de cette semaine :white_check_mark:\n:flag_gb: Menu redownloaded, it's this week's menu :white_check_mark:")
                 return True
+        else:
+            return True
 
 client = discord.Client()
 
