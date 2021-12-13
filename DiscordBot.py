@@ -1,5 +1,5 @@
 # AKOE - ADU - CantocheBot - Latest 06/12/21
-# AKOE - issue_32 06/12/21
+# AKOE - feature_35 10/12/21
 # Licence : CC-BY-NC-SA
 
 import discord
@@ -35,7 +35,7 @@ Help for the english version :\
 !cantoche or !ct stats     -> Prints the daily call's counter```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.5\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
+versionmsg = "Bot: CantocheBot - Version 1.6\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -93,6 +93,9 @@ async def cantoche(ctx, day: str=None):
     # Defines today's int
     todayint = datetime.datetime.today().weekday()
     
+    # Defines current time
+    now = datetime.datetime.now()
+
     # Generates all files if PDF isn't in folder
     if(not (os.path.isfile('./Menu_Semaine.pdf'))):
         CantocheBotPDF.generateAllFiles()
@@ -122,19 +125,22 @@ async def cantoche(ctx, day: str=None):
         # If the command is run on any other day, without parameter
         else:
             day = list(daysfr.keys())[list(daysfr.values()).index(day)]
-            with open(f'MenuDu{day}.png', 'rb') as f:
-                picture = discord.File(f)
-                await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
-                return
+
+            if(now.hour >= 15 and now.minute >= 00 and not todayint == 4):
+                day = list(daysfr.keys())[list(daysfr.values()).index(day+1)]
+                with open(f'MenuDu{day}.png', 'rb') as f:
+                    picture = discord.File(f)
+                    await ctx.send(f":flag_fr: Il est 15h passé, voici le menu de demain {emoji[randomemoji]} :\n:flag_gb: It's past 3PM, here's the menu of tomorrow {emoji[randomemoji]} :", file = picture)
+                    return
+            else:
+                with open(f'MenuDu{day}.png', 'rb') as f:
+                    picture = discord.File(f)
+                    await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
+                    return
     else:
         day = day.lower()
         match day:
-            # Can be used if the bot is locked on an old version, when the new is available on the server (shouldn't arrive)
-            # case 'forcedownload':
-            #     CantocheBotPDF.generateAllFiles()
-            #     await ctx.send(f":flag_fr: Tous les fichiers ont été téléchargés\n:flag_gb: All files have been downloaded")
-            #     return
-            # If the paraleter is help or aide, prints a useful guide for the bot
+            # If the parameter is help or aide, prints a useful guide for the bot
             case 'help' | 'aide':
                 await ctx.send(helpmsg)
                 return
