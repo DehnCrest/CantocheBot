@@ -35,7 +35,7 @@ Help for the english version :\
 !cantoche or !ct stats     -> Prints the daily call's counter```"
 
 # Is printed when !cantoche version is called
-versionmsg = "Bot: CantocheBot - Version 1.6.1 Beta\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
+versionmsg = "Bot: CantocheBot - Version 1.6\nPython version: 3.10\nOS: Debian 10 Buster (amd64)"
 
 # Dictionnaries to manage weekday parameter
 daysfr = { 'lundi':0, 'mardi':1, 'mercredi':2, 'jeudi':3, 'vendredi':4, 'samedi':5, 'dimanche':6 }
@@ -129,8 +129,6 @@ async def cantoche(ctx, day: str=None):
             return
         # If the command is run on any other day, without parameter
         else:
-            day = list(daysfr.keys())[list(daysfr.values()).index(day)]
-
             if(now.hour >= 15 and now.minute >= 00 and not todayint == 4):
                 day = list(daysfr.keys())[list(daysfr.values()).index(day+1)]
                 with open(f'MenuDu{day}.png', 'rb') as f:
@@ -138,6 +136,7 @@ async def cantoche(ctx, day: str=None):
                     await ctx.send(f":flag_fr: Il est 15h passé, voici le menu de demain {emoji[randomemoji]} :\n:flag_gb: It's past 3PM, here's the menu of tomorrow {emoji[randomemoji]} :", file = picture)
                     return
             else:
+                day = list(daysfr.keys())[list(daysfr.values()).index(day)]
                 with open(f'MenuDu{day}.png', 'rb') as f:
                     picture = discord.File(f)
                     await ctx.send(f":flag_fr: Voici le menu du jour {emoji[randomemoji]} :\n:flag_gb: Here's the menu of the day {emoji[randomemoji]} :", file = picture)
