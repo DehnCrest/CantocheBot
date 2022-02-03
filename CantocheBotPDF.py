@@ -1,5 +1,5 @@
 # BY ADU - 23/11/21
-# AKOE - dl_optimization
+# AKOE - bugfix_feb02
 # Licence : CC-BY-NC-SA
 
 #!/usr/bin/python
@@ -42,7 +42,7 @@ monthfrtoen = {
 
 # Downloads the PDF on IMT's web server
 def DownloadPDF():
-    url = 'https://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
+    url = 'http://webdfd.mines-ales.fr/restau/Menu_Semaine.pdf'
     urllib.request.urlretrieve(url, "Menu_Semaine.pdf")
 
 # Transforms the PDF into PNG
@@ -54,11 +54,11 @@ def generatePNG():
 def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
     rectdict = {
-        0:(50, 350, 2450, 590),
-        1:(50, 600, 2450, 825),
-        2:(50, 830, 2450, 1070),
-        3:(50, 1075, 2450, 1320),
-        4:(50, 1320, 2450, 1570)
+        0:(50, 350, 2450, 625),
+        1:(50, 625, 2450, 860),
+        2:(50, 860, 2450, 1100),
+        3:(50, 1100, 2450, 1355),
+        4:(50, 1355, 2450, 1600)
     }
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)

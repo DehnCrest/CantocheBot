@@ -1,5 +1,5 @@
 # AKOE - ADU - CantocheBot - Latest 06/12/21
-# AKOE - fix_redl 13/12/21
+# AKOE - bugfix_feb02
 # Licence : CC-BY-NC-SA
 
 import discord
