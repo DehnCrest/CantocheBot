@@ -27,7 +27,7 @@ days = {
 
 monthfrtoen = {
     'janvier':'january',
-    'fevrier':'february',
+    'février':'february',
     'mars':'march',
     'avril':'april',
     'mai':'may',
