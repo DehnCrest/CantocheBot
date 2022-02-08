@@ -86,5 +86,3 @@ def getWeek():
         month_number = mth.month
         # Returns the week number of the pdf
         return int(datetime.date(int(page[7]),month_number,int(page[1])).isocalendar().week)
-
-generateAllFiles()
