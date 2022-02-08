@@ -1,5 +1,5 @@
 # BY ADU - 23/11/21
-# AKOE - bugfix_feb02
+# AKOE - fix_crops_220208
 # Licence : CC-BY-NC-SA
 
 #!/usr/bin/python
@@ -54,11 +54,11 @@ def generatePNG():
 def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
     rectdict = {
-        0:(50, 350, 2450, 625),
-        1:(50, 625, 2450, 860),
-        2:(50, 860, 2450, 1100),
+        0:(50, 320, 2450, 575),
+        1:(50, 575, 2450, 820),
+        2:(50, 820, 2450, 1100),
         3:(50, 1100, 2450, 1355),
-        4:(50, 1355, 2450, 1600)
+        4:(50, 1355, 2450, 1610)
     }
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
@@ -86,3 +86,5 @@ def getWeek():
         month_number = mth.month
         # Returns the week number of the pdf
         return int(datetime.date(int(page[7]),month_number,int(page[1])).isocalendar().week)
+
+generateAllFiles()
