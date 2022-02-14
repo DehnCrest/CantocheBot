@@ -54,11 +54,11 @@ def generatePNG():
 def getPartPNG(day):
     im = Image.open("Menu_Semaine.png")
     rectdict = {
-        0:(50, 320, 2450, 575),
-        1:(50, 575, 2450, 820),
-        2:(50, 820, 2450, 1100),
-        3:(50, 1100, 2450, 1355),
-        4:(50, 1355, 2450, 1610)
+        0:(50, 310, 2450, 550),
+        1:(50, 550, 2450, 755),
+        2:(50, 755, 2450, 980),
+        3:(50, 980, 2450, 1225),
+        4:(50, 1225, 2450, 1470)
     }
     crop_rectangle = rectdict[day]
     cropped_im = im.crop(crop_rectangle)
